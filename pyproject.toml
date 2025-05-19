@@ -1,0 +1,79 @@
+[project]
+name = "mdformat-ruff"
+version = "0.0.1"
+description = "Mdformat plugin to run ruff on Python code blocks."
+readme = "README.md"
+authors = [
+  { name = "Bagard Hoel", email = "hoel.bagard.hy@hitachi-hightech.com" },
+]
+requires-python = ">=3.7"
+dependencies = ["ruff"]
+
+[project.entry-points."mdformat.codeformatter"]
+"python" = "mdformat_ruff:format_python"
+
+[dependency-groups]
+tests = ["pytest>=8.3.3", "pytest-cov>=6.0.0"]
+
+[tool.uv]
+dev-dependencies = ["pyright>=1.1.387", "ruff>=0.8.4", "codespell>=2.3.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mdformat_ruff"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+preview = true
+select = ["ALL"]
+ignore = [
+  "COM812",  # conflict with formatter
+  "C901",    # Function is too complex
+  "CPY",     # Copyright rules
+  "D1",      # Missing docstring
+  "DOC201",  # `return` is not documented in docstring
+  "DTZ005",  # Timezone stuff
+  "ERA001",  # Found commented-out code
+  "FBT003",  # Boolean positional value in function call
+  "FIX002",  # Line contains TODO, consider resolving the issue
+  "G004",    # Logging statement uses f-string
+  "ISC001",  # conflict with formatter
+  "PLW2901", # loop variable overwritten by assignment target
+  "RET504",  # Unnecessary assignment before `return` statement
+  "RET505",  # Unnecessary `else` after `return` statement
+  "RET508",  # Unnecessary `elif` after `break` statement
+  "S",       # Security related stuff.
+  "TD",      # todo rules.
+  "T201",    # `print` found
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["PLR2004", "S101"]
+
+[tool.ruff.lint.isort]
+order-by-type = false
+known-first-party = ["mdformat_ruff"]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pyright]
+include = ["src/mdformat_ruff"]
+pythonVersion = "3.8"
+pythonPlatform = "Linux"
+typeCheckingMode = "strict"
+reportUnnecessaryComparison = "warning"
+reportUnnecessaryTypeIgnoreComment = "warning"
+reportUnknownMemberType = false
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]

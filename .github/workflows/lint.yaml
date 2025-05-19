@@ -1,0 +1,103 @@
+name: Linting CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - "src/**.py"
+      - .github/workflows/lint.yaml
+      - pyproject.toml
+      - uv.lock
+      - README.md
+  pull_request:
+    paths:
+      - "src/**.py"
+      - .github/workflows/lint.yaml
+      - pyproject.toml
+      - uv.lock
+      - README.md
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  style-lint:
+    name: Check code formatting
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --frozen --dev
+
+      - name: Run ruff format
+        run: uv run --frozen ruff format .
+
+      # Check after format since format breaks E203.
+      - name: Run ruff check
+        run: uv run --frozen ruff check .
+
+  typing-lint:
+    name: Check code typing
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --frozen --dev
+
+      - name: Run Pyright
+        run: uv run --frozen pyright src
+
+  spelling-lint:
+    name: Check spelling
+    runs-on:
+      - ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --frozen --dev
+
+      - name: Run codespell
+        run: uv run --frozen codespell README.md src
