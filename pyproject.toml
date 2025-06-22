@@ -1,6 +1,6 @@
 [project]
 name = "mdformat-ruff"
-version = "0.0.1"
+dynamic = ["version"]
 description = "Mdformat plugin to run ruff on Python code blocks."
 readme = "README.md"
 authors = [
@@ -25,6 +25,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mdformat_ruff"]
+
+[tool.hatch.version]
+path = "src/mdformat_ruff/__init__.py"
 
 [tool.ruff]
 line-length = 120
