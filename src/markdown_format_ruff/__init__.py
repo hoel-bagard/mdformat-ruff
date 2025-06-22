@@ -1,6 +1,6 @@
 import subprocess
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 
 def format_python(unformatted: str, _info_str: str) -> str:
