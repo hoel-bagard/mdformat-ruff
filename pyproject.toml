@@ -36,28 +36,12 @@ line-length = 120
 preview = true
 select = ["ALL"]
 ignore = [
-  "COM812",  # conflict with formatter
-  "C901",    # Function is too complex
-  "CPY",     # Copyright rules
-  "D1",      # Missing docstring
-  "DOC201",  # `return` is not documented in docstring
-  "DTZ005",  # Timezone stuff
-  "ERA001",  # Found commented-out code
-  "FBT003",  # Boolean positional value in function call
-  "FIX002",  # Line contains TODO, consider resolving the issue
-  "G004",    # Logging statement uses f-string
-  "ISC001",  # conflict with formatter
-  "PLW2901", # loop variable overwritten by assignment target
-  "RET504",  # Unnecessary assignment before `return` statement
-  "RET505",  # Unnecessary `else` after `return` statement
-  "RET508",  # Unnecessary `elif` after `break` statement
-  "S",       # Security related stuff.
-  "TD",      # todo rules.
-  "T201",    # `print` found
+  "COM812", # conflict with formatter
+  "CPY",    # Copyright rules
+  "D1",     # Missing docstring
+  "ISC001", # conflict with formatter
+  "S",      # Security related stuff.
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["PLR2004", "S101"]
 
 [tool.ruff.lint.isort]
 order-by-type = false
