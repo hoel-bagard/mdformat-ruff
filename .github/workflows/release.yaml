@@ -37,8 +37,8 @@ jobs:
       - name: Check that the tag version and the pyproject.toml version match.
         shell: bash
         run: |
-          if ! grep -q "version = \"$VERSION\"" pyproject.toml; then
-            echo "version does not match pyproject.toml" >&2
+          if ! grep -q "version = \"$VERSION\"" src/markdown_format_ruff/__init__.py; then
+            echo "Tag version does not match the version in the __init__.py" >&2
             exit 1
           fi
 

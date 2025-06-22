@@ -28,8 +28,7 @@ env:
 jobs:
   style-lint:
     name: Check code formatting
-    runs-on:
-      - ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,8 +54,7 @@ jobs:
 
   typing-lint:
     name: Check code typing
-    runs-on:
-      - ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,8 +76,7 @@ jobs:
 
   spelling-lint:
     name: Check spelling
-    runs-on:
-      - ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

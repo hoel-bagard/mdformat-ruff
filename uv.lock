@@ -16,8 +16,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mdformat-ruff"
-version = "0.0.1"
+name = "markdown-format-ruff"
 source = { editable = "." }
 dependencies = [
     { name = "ruff" },
