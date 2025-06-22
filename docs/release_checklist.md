@@ -1,7 +1,7 @@
 # Release Checklist
 
 - Ensure local `master` is up to date with respect to `origin/master`.
-- Edit `src/-stubs/__init__.pyi` to set the new version.
+- Edit `src/markdown_format_ruff/__init__.pyi` to set the new version.
   Commit and push the changes.
 - Check that the CI is passing.
 - Create and push the new tag with: `TAG_NAME=<tag_name>; git tag -s $TAG_NAME -m $TAG_NAME && git tag -v $TAG_NAME && git push origin $TAG_NAME`
