@@ -18,8 +18,7 @@ jobs:
   # It's separate from building the release so that we only create the release once.
   create-release:
     name: Create release
-    runs-on:
-      - self-hosted-ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +33,7 @@ jobs:
         run: |
           echo "version is: $VERSION"
 
-      - name: Check that the tag version and the pyproject.toml version match.
+      - name: Check that the tag version and the project version match.
         shell: bash
         run: |
           if ! grep -q "version = \"$VERSION\"" src/markdown_format_ruff/__init__.py; then
@@ -51,28 +50,37 @@ jobs:
       gh_release_tag: ${{ env.GH_RELEASE_TAG }}
 
   build-release:
-    name: build-release
+    name: publish-release
     needs: ["create-release"]
-    runs-on:
-      - self-hosted-ubuntu-20.04
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v5
         with:
-          enable-cache: true
-          cache-dependency-glob: "uv.lock"
+          version: "0.7.13"
+          python-version: "3.12"
 
-      - name: Build binary
-        shell: bash
-        run: uv build
+      - name: Setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-      - name: Upload release to GitHub
-        shell: bash
+      - name: Build and publish to PyPi
+        run: |
+          uv build
+          uv publish
+
+      - name: Upload release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.TOKEN }}
         run: |
           set -e
           version="${{ needs.create-release.outputs.gh_release_tag }}"
