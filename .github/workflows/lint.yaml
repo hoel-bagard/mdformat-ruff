@@ -22,6 +22,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  UV_FROZEN: 1
+
 jobs:
   style-lint:
     name: Check code formatting
@@ -36,21 +39,19 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          version: "0.7.5"
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
 
-      - name: Install the project
-        run: uv sync --frozen --dev
-
       - name: Run ruff format
-        run: uv run --frozen ruff format .
+        run: uv run --dev ruff format
 
       # Check after format since format breaks E203.
       - name: Run ruff check
-        run: uv run --frozen ruff check .
+        run: uv run --dev ruff check
 
   typing-lint:
     name: Check code typing
@@ -65,17 +66,15 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          version: "0.7.5"
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
 
-      - name: Install the project
-        run: uv sync --frozen --dev
-
       - name: Run Pyright
-        run: uv run --frozen pyright src
+        run: uv run --dev pyright src
 
   spelling-lint:
     name: Check spelling
@@ -90,14 +89,12 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
+          version: "0.7.5"
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: "pyproject.toml"
-
-      - name: Install the project
-        run: uv sync --frozen --dev
+          python-version: "3.13"
 
       - name: Run codespell
-        run: uv run --frozen codespell README.md src
+        run: uv run --dev codespell README.md src

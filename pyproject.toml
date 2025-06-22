@@ -12,11 +12,12 @@ dependencies = ["ruff"]
 [project.entry-points."mdformat.codeformatter"]
 "python" = "mdformat_ruff:format_python"
 
-[dependency-groups]
-tests = ["pytest>=8.3.3", "pytest-cov>=6.0.0"]
-
 [tool.uv]
-dev-dependencies = ["pyright>=1.1.387", "ruff>=0.8.4", "codespell>=2.3.0"]
+dev-dependencies = [
+  "pyright>=1.1.387",
+  "ruff>=0.8.4",
+  "codespell>=2.3.0; python_version >= '3.8'",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -67,7 +68,7 @@ convention = "google"
 
 [tool.pyright]
 include = ["src/mdformat_ruff"]
-pythonVersion = "3.8"
+pythonVersion = "3.7"
 pythonPlatform = "Linux"
 typeCheckingMode = "strict"
 reportUnnecessaryComparison = "warning"
