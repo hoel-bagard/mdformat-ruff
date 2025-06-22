@@ -3,9 +3,7 @@ name = "markdown-format-ruff"
 dynamic = ["version"]
 description = "Mdformat plugin to run ruff on Python code blocks."
 readme = "README.md"
-authors = [
-  { name = "Bagard Hoel", email = "hoel.bagard.hy@hitachi-hightech.com" },
-]
+authors = [{ name = "Bagard Hoel", email = "hoel.bagard@gmail.com" }]
 requires-python = ">=3.7"
 dependencies = ["ruff"]
 
